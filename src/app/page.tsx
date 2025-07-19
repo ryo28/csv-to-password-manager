@@ -1,13 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Papa from "papaparse";
-
-type AuthenticatorRecord = {
-  url: string;
-  username: string;
-  password: string;
-};
+import { convertToBitwardenCSV } from "./_component/convertToBitwardenCSV";
 
 export default function HomePage() {
   //変換後のCSVデータ
@@ -46,128 +40,7 @@ export default function HomePage() {
       setIsLoading(false);
     }
   };
-
-  // CSVをBitwarden形式に変換する関数
-  // 入力はCSV形式の文字列で、出力は変換後のCSV文字列と変換されたレコード数
-  const convertToBitwardenCSV = (
-    input: string
-  ): { csv: string; count: number } => {
-    // 入力が空の場合はエラーを投げる
-    if (!input.trim()) {
-      throw new Error("CSVファイルが空です");
-    }
-
-    const parsed = Papa.parse(input, {
-      header: true,
-      // ヘッダー行を含む
-      skipEmptyLines: true,
-      // 動的型付けを無効にする
-      dynamicTyping: false,
-      // ヘッダーの変換 ヘッダーを小文字に変換し、前後の空白を削除
-      transformHeader: (header) => header.trim().toLowerCase(),
-    });
-    // 解析結果のエラーをチェック
-    if (parsed.errors.length > 0) {
-      throw new Error(`CSVの解析エラー: ${parsed.errors[0].message}`);
-    }
-    // 解析結果からデータを取得
-    const authenticatorRecord = parsed.data as AuthenticatorRecord[];
-    //authenticatorRecordは、CSVの各行を表すオブジェクトの配列
-    //例
-    // const records = [
-    //   { url: "https: //a.com", username: "aaa", password: "123" },
-    //   { url: "", username: "", password: "" },
-    //   { url: "https: //b.com", username: "", password: "456" },
-    // ];
-
-    // データが空の場合はエラーを投げる
-    if (!authenticatorRecord || authenticatorRecord.length === 0) {
-      throw new Error("有効なデータが見つかりません");
-    }
-
-    // 必要なフィールドの検証
-    // url, username, password が存在するか確認
-    const requiredFields: (keyof AuthenticatorRecord)[] = [
-      "url",
-      "username",
-      "password",
-    ];
-    // 最初のレコードを取得　firstRowは最前列という意味
-    const firstRow = authenticatorRecord[0];
-    // filedには1つずつフィールド名が入る
-    // filed = "url" のように
-    // ループで回して、firstRowにそのフィールドが存在するか確認
-    for (const field of requiredFields) {
-      if (!(field in firstRow) || firstRow[field] === undefined) {
-        throw new Error(
-          `必須フィールド '${field}' が見つかりません。期待されるヘッダー: url,username,password`
-        );
-      }
-    }
-
-    // Bitwardenの形式に変換
-    const bitwardenHeaders = [
-      "folder",
-      "favorite",
-      "type",
-      "name",
-      "notes",
-      "fields",
-      "reprompt",
-      "login_uri",
-      "login_username",
-      "login_password",
-      "login_totp",
-    ];
-
-    const dataRows = authenticatorRecord
-      // フィルタリングして、url:https: //example.com, username: user, password: pass のようなレコードのみを抽出
-      .filter((record) => record.url || record.username || record.password)
-      .map((record) => {
-        const name = extractDomain(record.url || "Unknown");
-        return [
-          "",
-          "",
-          "login",
-          name,
-          "",
-          "",
-          "",
-          record.url || "",
-          record.username || "",
-          record.password || "",
-          "",
-        ];
-      });
-
-    const csvRows = [bitwardenHeaders, ...dataRows];
-
-    const csvOutput = Papa.unparse(csvRows, {
-      quotes: false,
-      quoteChar: '"',
-      escapeChar: '"',
-      delimiter: ",",
-      header: false,
-      newline: "\n",
-    });
-
-    return {
-      csv: csvOutput,
-      count: csvRows.length - 1,
-    };
-  };
-
-  const extractDomain = (url: string): string => {
-    if (!url) return "Unknown";
-
-    try {
-      const urlObj = new URL(url.startsWith("http") ? url : `https://${url}`);
-      return urlObj.hostname.replace(/^www\./, "");
-    } catch {
-      return url.replace(/^www\./, "");
-    }
-  };
-
+  // CSVをBitwarden形式に変換した後のダウンロード処理
   const downloadConvertedCsv = () => {
     if (!convertedCsv) return;
 
@@ -183,6 +56,7 @@ export default function HomePage() {
     URL.revokeObjectURL(url);
   };
 
+  // 変換した値をリセットする関数
   const resetConverter = () => {
     setConvertedCsv(null);
     setError(null);
@@ -238,9 +112,14 @@ export default function HomePage() {
                 disabled:opacity-50 file:transition-all file:duration-300
                 bg-gray-900 border border-gray-700 rounded-md p-2 sm:p-3"
               />
-              <p className="text-xs text-gray-500 mt-2">
-                [必須形式] url,username,password
-              </p>
+
+              <div className="flex gap-2">
+                <p className="text-xs text-gray-500 mt-2">[必須形式]</p>
+                <p className="text-xs text-gray-500 mt-2">
+                  url,username,password <br />
+                  https://example.com,user1,pass1
+                </p>
+              </div>
             </div>
 
             {/* Loading state */}
