@@ -61,14 +61,14 @@ export default function HomePage() {
       <div className="relative z-10 max-w-4xl mx-auto p-4 sm:p-6">
         <div className="bg-gray-900 rounded-lg shadow-2xl border border-green-500/30 p-4 sm:p-8 backdrop-blur-sm">
           <div className="text-center mb-6 sm:mb-8">
-            <div className="flex flex-col items-center w-full ">
-              <span className="text-2xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 mb-2 animate-pulse whitespace-nowrap">
+            <div className="flex flex-col items-center w-full">
+              <span className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 mb-2 animate-pulse whitespace-nowrap">
                 ╔══════════════════════════════════════╗
               </span>
               <h1 className="text-xl sm:text-3xl font-bold text-green-400 mb-2 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)] text-center">
                 &gt; AUTHENTICATOR_CONVERTER
               </h1>
-              <span className="text-2xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 mb-4 animate-pulse whitespace-nowrap">
+              <span className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 mb-4 animate-pulse whitespace-nowrap">
                 ╚══════════════════════════════════════╝
               </span>
             </div>
