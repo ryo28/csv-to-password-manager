@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { convertToBitwardenCSV } from "./_component/convertToBitwardenCSV";
 import { DownloadConvertedCsv } from "./_component/DownloadConvertedCsv";
 import { PreviewOfConverted } from "./_component/PreviewOfConverted";
@@ -17,20 +17,19 @@ export default function HomePage() {
   //変換されたレコード数
   const [recordCount, setRecordCount] = useState<number>(0);
 
+  // ファイルinputのref
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   // CSVファイルの選択ハンドラー
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    //選択した最初のファイルをfile変数に格納
     const file = e.target.files?.[0];
-    //ファイルが選択されていない場合は何もしない
     if (!file) return;
 
     setIsLoading(true);
     setError(null);
 
     try {
-      // ファイルをテキストとして読み込む
       const csvText = await file.text();
-      // CSVをBitwarden形式に変換
       const result = convertToBitwardenCSV(csvText);
       setConvertedCsv(result.csv);
       setRecordCount(result.count);
@@ -49,6 +48,10 @@ export default function HomePage() {
     setError(null);
     setRecordCount(0);
     setFileName("bitwarden_import.csv");
+    // ファイルinputの値もリセット
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -87,6 +90,7 @@ export default function HomePage() {
                 &gt; CSVファイルを選択
               </label>
               <input
+                ref={fileInputRef}
                 type="file"
                 accept=".csv"
                 onChange={handleFileChange}
