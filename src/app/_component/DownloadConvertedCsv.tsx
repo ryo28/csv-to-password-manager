@@ -21,8 +21,7 @@ export function DownloadConvertedCsv({
       anchorRef.current.download = fileName;
       anchorRef.current.click();
     }
-
-    // クリーンアップを少し遅らせる
+    // URLを解放
       URL.revokeObjectURL(url);
   };
 
