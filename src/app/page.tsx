@@ -86,10 +86,14 @@ export default function HomePage() {
           <div className="space-y-4 sm:space-y-6">
             {/* File input section */}
             <div className="bg-gray-800 rounded-lg p-4 sm:p-6 border border-green-500/20 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
-              <label className="block text-sm font-medium text-cyan-300 mb-3">
+                <label
+                htmlFor="csv-file-input"
+                className="block text-sm font-medium text-cyan-300 mb-3"
+                >
                 &gt; CSVファイルを選択
-              </label>
-              <input
+                </label>
+                <input
+                id="csv-file-input"
                 ref={fileInputRef}
                 type="file"
                 accept=".csv"
@@ -102,7 +106,7 @@ export default function HomePage() {
                 hover:file:bg-green-500/20 hover:file:shadow-[0_0_10px_rgba(34,197,94,0.5)]
                 disabled:opacity-50 file:transition-all file:duration-300
                 bg-gray-900 border border-gray-700 rounded-md p-2 sm:p-3"
-              />
+                />
 
               <div className="flex gap-2">
                 <p className="text-xs text-gray-500 mt-2">[必須形式]</p>
