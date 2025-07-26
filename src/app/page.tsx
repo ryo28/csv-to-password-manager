@@ -5,6 +5,9 @@ import { convertToBitwardenCSV } from "./_component/convertToBitwardenCSV";
 import { DownloadConvertedCsv } from "./_component/DownloadConvertedCsv";
 import { PreviewOfConverted } from "./_component/PreviewOfConverted";
 import Image from "next/image";
+import nextConfig from "../../next.config";
+ const BASE_PATH = nextConfig.basePath || "";
+
 
 export default function HomePage() {
   //変換後のCSVデータ
@@ -89,7 +92,7 @@ export default function HomePage() {
               <h1 className="sm:text-3xl font-bold text-green-400 mb-2 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)] text-center flex items-center gap-2">
                 <span>
                   <Image
-                    src={"/logo.png"}
+                    src={`${BASE_PATH}/logo.png`}
                     width={500}
                     height={500}
                     alt="ロゴ"
