@@ -5,6 +5,8 @@ export function PreviewOfConverted({ convertedCsv }: { convertedCsv: string }) {
         &gt; データプレビュー
       </h3>
       <div className="bg-black rounded-md p-3 sm:p-4 max-h-64 sm:max-h-96 overflow-auto border border-green-500/30 shadow-inner">
+        {/* 変換されたCSVデータを行ごとに表示 */}
+        {/* 各行は行番号とともに表示 */}
         <div className="text-xs text-green-400 font-mono leading-relaxed">
           {convertedCsv.split("\n").map((line, index) => (
             <div
@@ -20,6 +22,7 @@ export function PreviewOfConverted({ convertedCsv }: { convertedCsv: string }) {
         </div>
       </div>
       <p className="text-xs text-gray-500 mt-2 sm:mt-3">
+        {/* 改行ごとに配列に格納してデータの数を表示 */}
         [INFO] 全{convertedCsv.split("\n").length}行のデータを表示中
       </p>
     </div>
