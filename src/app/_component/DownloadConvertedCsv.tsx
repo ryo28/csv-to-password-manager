@@ -11,18 +11,19 @@ export function DownloadConvertedCsv({
   const anchorRef = useRef<HTMLAnchorElement | null>(null);
 
   const handleDownload = () => {
+    //インスタンス化されたBlobを作成してCSVデータを格納
     const blob = new Blob([csvData], {
       type: "text/csv;charset=utf-8;",
     });
     const url = URL.createObjectURL(blob);
-
+    //ダウンロードリンクを自動で実行
     if (anchorRef.current) {
       anchorRef.current.href = url;
       anchorRef.current.download = fileName;
       anchorRef.current.click();
     }
     // URLを解放
-      URL.revokeObjectURL(url);
+    URL.revokeObjectURL(url);
   };
 
   return (

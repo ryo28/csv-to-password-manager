@@ -27,12 +27,15 @@ export default function HomePage() {
 
     setIsLoading(true);
     setError(null);
-
     try {
       const csvText = await file.text();
+      // CSVをBitwarden形式に変換して結果を取得
       const result = convertToBitwardenCSV(csvText);
       setConvertedCsv(result.csv);
       setRecordCount(result.count);
+      // ファイル名から拡張子を除去して新しいファイル名を設定
+      // 例: "example.csv" → "example_bitwarden.csv"
+      //正規表現　最初に見つけたドットからドットと/を含まない文字列を最後まで空にする
       setFileName(file.name.replace(/\.[^/.]+$/, "") + "_bitwarden.csv");
     } catch (err) {
       setError(err instanceof Error ? err.message : "変換に失敗しました");
@@ -63,6 +66,7 @@ export default function HomePage() {
 
       <div className="relative z-10 max-w-4xl mx-auto p-4 sm:p-6">
         <div className="bg-gray-900 rounded-lg shadow-2xl border border-green-500/30 p-4 sm:p-8 backdrop-blur-sm">
+          {/* タイトルセクション */}
           <div className="text-center mb-6 sm:mb-8">
             <div className="flex flex-col items-center w-full">
               <span className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 mb-2 animate-pulse whitespace-nowrap">
@@ -84,15 +88,15 @@ export default function HomePage() {
           </div>
 
           <div className="space-y-4 sm:space-y-6">
-            {/* File input section */}
+            {/* ファイル選択 */}
             <div className="bg-gray-800 rounded-lg p-4 sm:p-6 border border-green-500/20 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
-                <label
+              <label
                 htmlFor="csv-file-input"
                 className="block text-sm font-medium text-cyan-300 mb-3"
-                >
+              >
                 &gt; CSVファイルを選択
-                </label>
-                <input
+              </label>
+              <input
                 id="csv-file-input"
                 ref={fileInputRef}
                 type="file"
@@ -106,7 +110,7 @@ export default function HomePage() {
                 hover:file:bg-green-500/20 hover:file:shadow-[0_0_10px_rgba(34,197,94,0.5)]
                 disabled:opacity-50 file:transition-all file:duration-300
                 bg-gray-900 border border-gray-700 rounded-md p-2 sm:p-3"
-                />
+              />
 
               <div className="flex gap-2">
                 <p className="text-xs text-gray-500 mt-2">[必須形式]</p>
@@ -117,7 +121,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Loading state */}
+            {/* ローディング */}
             {isLoading && (
               <div className="flex items-center space-x-2 sm:space-x-3 text-cyan-400 bg-gray-800 rounded-lg p-3 sm:p-4 border border-cyan-500/20">
                 <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-cyan-400"></div>
@@ -127,7 +131,7 @@ export default function HomePage() {
               </div>
             )}
 
-            {/* Error display */}
+            {/* エラー時 */}
             {error && (
               <div className="bg-red-900/50 border border-red-500/50 rounded-lg p-3 sm:p-4 shadow-[0_0_20px_rgba(239,68,68,0.3)]">
                 <p className="text-xs sm:text-sm text-red-300">
@@ -136,17 +140,16 @@ export default function HomePage() {
               </div>
             )}
 
-            {/* Success and results */}
+            {/* 成功時 */}
             {convertedCsv && (
               <div className="space-y-4 sm:space-y-6">
-                {/* Success message */}
                 <div className="bg-green-900/50 border border-green-500/50 rounded-lg p-3 sm:p-4 shadow-[0_0_20px_rgba(34,197,94,0.3)]">
                   <p className="text-xs sm:text-sm text-green-300">
                     [success] 変換成功: {recordCount}件のレコードを処理しました
                   </p>
                 </div>
 
-                {/* Action buttons */}
+                {/* ボタン */}
                 <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
                   <DownloadConvertedCsv
                     csvData={convertedCsv}
@@ -162,7 +165,7 @@ export default function HomePage() {
                     &gt; リセット
                   </button>
                 </div>
-
+                {/* プレビューを表示 */}
                 <PreviewOfConverted convertedCsv={convertedCsv} />
               </div>
             )}
