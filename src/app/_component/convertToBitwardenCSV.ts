@@ -8,7 +8,7 @@ type AuthenticatorRecord = {
 // CSVをBitwarden形式に変換する関数
 // 入力はCSV形式の文字列で、出力は変換後のCSV文字列と変換されたレコード数
 export const convertToBitwardenCSV = (
-  input: string // CSV形式の文字列 csvText
+  input: string, // CSV形式の文字列 csvText
 ): { csv: string; count: number } => {
   // 入力が空の場合はエラーを投げる
   if (!input.trim()) {
@@ -36,7 +36,7 @@ export const convertToBitwardenCSV = (
     };
     const errorCode = parsed.errors[0].code;
     throw new Error(
-      `CSVの解析エラー: ${errorMessages[errorCode] || "不明なエラー"}`
+      `CSVの解析エラー: ${errorMessages[errorCode] || "不明なエラー"}`,
     );
   }
   // 解析結果からデータを取得
@@ -69,7 +69,7 @@ export const convertToBitwardenCSV = (
   for (const field of requiredFields) {
     if (!(field in firstRow) || firstRow[field] === undefined) {
       throw new Error(
-        `必須フィールド '${field}' が見つかりません。期待されるヘッダー: url,username,password`
+        `必須フィールド '${field}' が見つかりません。期待されるヘッダー: url,username,password`,
       );
     }
   }

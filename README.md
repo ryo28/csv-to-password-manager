@@ -5,7 +5,7 @@ Microsoft Authenticator の CSV を Bitwarden 形式の CSV に変換する、�
 
 ## 利用方法
 
-1. Microsoft Authenticator からエクスポートした CSV をアップロード  
+1. Microsoft Authenticator からエクスポートした CSV をアップロード
 2. Bitwarden 形式に変換された CSV をダウンロード
 
 ## 技術スタック
@@ -23,3 +23,4 @@ npm install
 
 # 開発サーバーの起動
 npm run dev
+```
