@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import { convertToBitwardenCSV } from "./_component/convertToBitwardenCSV";
 import { DownloadConvertedCsv } from "./_component/DownloadConvertedCsv";
 import { PreviewOfConverted } from "./_component/PreviewOfConverted";
+import Image from "next/image";
 
 export default function HomePage() {
   //変換後のCSVデータ
@@ -57,6 +58,14 @@ export default function HomePage() {
     }
   };
 
+  // スタイル定義
+  const baseTextStyle =
+    "font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 animate-pulse whitespace-nowrap";
+  // スマホサイズのスタイル
+  const miniSizeStyle = `${baseTextStyle} text-base block sm:hidden mb-4`;
+  // PCサイズのスタイル
+  const pcSizeStyle = `${baseTextStyle} sm:text-3xl hidden sm:block mb-2`;
+
   return (
     <div className="min-h-screen bg-black text-green-400 font-mono">
       <div className="fixed inset-0 opacity-5 pointer-events-none">
@@ -69,13 +78,30 @@ export default function HomePage() {
           {/* タイトルセクション */}
           <div className="text-center mb-6 sm:mb-8">
             <div className="flex flex-col items-center w-full">
-              <span className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 mb-2 animate-pulse whitespace-nowrap">
+              <span className={`${miniSizeStyle}`}>
+                ╔══════════════════════════════════╗
+              </span>
+
+              <span className={pcSizeStyle}>
                 ╔══════════════════════════════════════╗
               </span>
-              <h1 className="text-xl sm:text-3xl font-bold text-green-400 mb-2 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)] text-center">
+
+              <h1 className="sm:text-3xl font-bold text-green-400 mb-2 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)] text-center flex items-center gap-2">
+                <span>
+                  <Image
+                    src={"/logo.png"}
+                    width={500}
+                    height={500}
+                    alt="ロゴ"
+                    className="w-5 h-5 sm:w-12 sm:h-12 mr-2 inline-block"
+                  />
+                </span>
                 &gt; AUTHENTICATOR_CONVERTER
               </h1>
-              <span className="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 mb-4 animate-pulse whitespace-nowrap">
+              <span className={miniSizeStyle}>
+                ╚══════════════════════════════════╝
+              </span>
+              <span className={pcSizeStyle}>
                 ╚══════════════════════════════════════╝
               </span>
             </div>
