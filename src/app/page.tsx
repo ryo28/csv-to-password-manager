@@ -5,9 +5,8 @@ import { convertToBitwardenCSV } from "./_component/convertToBitwardenCSV";
 import { DownloadConvertedCsv } from "./_component/DownloadConvertedCsv";
 import { PreviewOfConverted } from "./_component/PreviewOfConverted";
 import Image from "next/image";
-import nextConfig from "../../next.config";
- const BASE_PATH = nextConfig.basePath || "";
-
+import nextConfig from "../../next.config.mjs";
+const BASE_PATH = nextConfig.basePath || "";
 
 export default function HomePage() {
   //変換後のCSVデータ
